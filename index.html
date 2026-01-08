@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ShoCode Maker Ultimate</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  color:white;
+}
+.container{
+  background:#1e293b;
+  padding:30px 40px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  width:90%;
+  max-width:700px;
+  text-align:center;
+}
+h1{
+  color:#38bdf8;
+  margin-bottom:20px;
+  font-size:2.2rem;
+  text-shadow:0 0 10px #38bdf8;
+}
+label{
+  display:block;
+  text-align:left;
+  margin-top:15px;
+  font-weight:500;
+  color:#38bdf8;
+}
+textarea, select{
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  border-radius:12px;
+  border:none;
+  background:#0f172a;
+  color:white;
+  font-size:1rem;
+  outline:none;
+  transition:0.3s;
+}
+textarea:focus, select:focus{
+  box-shadow:0 0 10px #38bdf8;
+}
+button{
+  padding:15px;
+  font-size:1.1rem;
+  margin-top:15px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  color:black;
+  background:linear-gradient(90deg,#38bdf8,#0ea5e9);
+  transition:0.3s;
+  position:relative;
+  overflow:hidden;
+}
+button:hover{
+  transform:scale(1.05);
+  box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+button:active::after{
+  content:'';
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background:rgba(255,255,255,0.2);
+  border-radius:12px;
+  animation: clickEffect 0.3s;
+}
+@keyframes clickEffect{
+  0%{opacity:1;transform:scale(0.5);}
+  100%{opacity:0;transform:scale(1.5);}
+}
+pre{
+  background:#0f172a;
+  padding:15px;
+  border-radius:15px;
+  margin-top:15px;
+  text-align:left;
+  font-size:13px;
+  max-height:300px;
+  overflow:auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  box-shadow:0 5px 20px rgba(0,0,0,0.4);
+}
+.copy{
+  background:linear-gradient(90deg,#22c55e,#16a34a);
+}
+#previewBtn{
+  display:none;
+  background:linear-gradient(90deg,#facc15,#eab308);
+  color:black;
+}
+#loading{
+  margin-top:15px;
+  font-size:1.2rem;
+  color:#facc15;
+  display:none;
+}
+#loading span{
+  display:inline-block;
+  animation:bounce 1s infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+.modal{
+  display:none;
+  position:fixed;
+  z-index:1000;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  overflow:auto;
+  background:rgba(0,0,0,0.8);
+}
+.modal-content{
+  background:#1e293b;
+  margin:5% auto;
+  padding:20px;
+  border-radius:20px;
+  width:90%;
+  max-width:800px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.7);
+}
+.close{
+  color:#38bdf8;
+  float:right;
+  font-size:28px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.close:hover{color:#f87171;}
+iframe{width:100%;height:400px;border:none;border-radius:15px;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>ShoCode Maker Ultimate</h1>
+<label>Apna Idea Likho 👇</label>
+<textarea id="idea" rows="4" placeholder="Example: 2D Tap game with coins or Quiz App"></textarea>
+
+<label>Game / App Type</label>
+<select id="type">
+  <option>Game</option>
+  <option>Website</option>
+  <option>Utility App</option>
+</select>
+
+<button id="generateBtn" onclick="generateCode()">Generate Code</button>
+<div id="loading">Creating Your Imagination <span>●</span><span>●</span><span>●</span></div>
+
+<pre id="output">// Yahan code aayega</pre>
+<button class="copy" onclick="copyCode()">Copy Code</button>
+<button id="previewBtn" onclick="openPreview()">Preview App</button>
+</div>
+
+<div id="previewModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closePreview()">&times;</span>
+<iframe id="previewFrame"></iframe>
+</div>
+</div>
+
+<script>
+function generateCode(){
+  const idea = document.getElementById("idea").value || "Your Idea Here";
+  const type = document.getElementById("type").value;
+  document.getElementById('previewBtn').style.display='none';
+  document.getElementById('loading').style.display='block';
+  document.getElementById('output').textContent = "// Generating code...";
+
+  setTimeout(()=> {
+    let code="";
+    // Dynamic idea-to-code generation
+    if(type==="Game"){
+      // Simple dynamic logic based on keywords
+      if(idea.toLowerCase().includes("tap")){
+        code=`<!DOCTYPE html>
+<html>
+<head><title>${idea}</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:30px;}
+button{padding:15px;font-size:18px;margin:10px;border:none;border-radius:8px;}
+#score{font-size:22px;margin:10px;}
+</style>
+</head>
+<body>
+<h1>${idea}</h1>
+<p id="score">Score: 0</p>
+<button onclick="score++;document.getElementById('score').innerText='Score: '+score;">Tap Me</button>
+<script>let score=0;</script>
+</body>
+</html>`;
+      } else if(idea.toLowerCase().includes("quiz")){
+        code=`<!DOCTYPE html>
+<html>
+<head><title>${idea}</title>
+<style>body{font-family:Arial;text-align:center;padding:30px;}button{padding:10px;margin:5px;}</style>
+</head>
+<body>
+<h1>${idea}</h1>
+<p id="question">Q1: Sample question?</p>
+<button onclick="nextQ()">Option 1</button>
+<button onclick="nextQ()">Option 2</button>
+<script>
+let q=1;
+function nextQ(){q++;document.getElementById('question').innerText='Q'+q+': Sample question?';}
+</script>
+</body>
+</html>`;
+      } else {
+        // Generic game
+        code=`<!DOCTYPE html>
+<html><head><title>${idea}</title></head><body><h1>${idea}</h1><p>Generic game placeholder</p></body></html>`;
+      }
+    } else if(type==="Website"){
+      code=`<!DOCTYPE html>
+<html>
+<head><title>${idea}</title>
+<style>body{font-family:Arial;text-align:center;padding:30px;}</style>
+</head>
+<body>
+<h1>${idea}</h1>
+<p>This is a simple website template.</p>
+</body>
+</html>`;
+    } else {
+      code=`<!DOCTYPE html>
+<html>
+<head><title>${idea}</title>
+<style>body{font-family:Arial;text-align:center;padding:30px;}</style>
+</head>
+<body>
+<h1>${idea}</h1>
+<p>Simple utility app template.</p>
+</body>
+</html>`;
+    }
+
+    document.getElementById('output').textContent = code;
+    document.getElementById('loading').style.display='none';
+    document.getElementById('previewBtn').style.display='inline-block';
+  },15000); // 15 sec animation
+}
+
+function copyCode(){
+  const text=document.getElementById("output").textContent;
+  navigator.clipboard.writeText(text);
+  alert("Code Copied ✅");
+}
+
+function openPreview(){
+  const code=document.getElementById('output').textContent;
+  const iframe=document.getElementById('previewFrame');
+  iframe.srcdoc=code;
+  document.getElementById('previewModal').style.display='block';
+}
+
+function closePreview(){
+  document.getElementById('previewModal').style.display='none';
+}
+</script>
+</body>
+</html>
